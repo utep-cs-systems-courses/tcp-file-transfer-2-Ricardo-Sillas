@@ -43,14 +43,15 @@ s.connect(addrPort)
 try:
     userInput = input("Please put a text file you would like to send.")
     fc = open(userInput, "r")
-except EOFError:    #catch error
-    sys.exit(1)
 except FileNotFoundError:
+    print("File was not found")
     sys.exit(1)
 
 words = fc.read()
 
-print(words)
+if len(words) == 0:
+    print("Contents of file were empty")
+    sys.exit(1)
 
 print("sending " + userInput)
 framedSend(s, (userInput + "<" + words).encode(), debug)
