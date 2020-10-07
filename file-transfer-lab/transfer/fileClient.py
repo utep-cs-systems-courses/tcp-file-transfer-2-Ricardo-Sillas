@@ -41,10 +41,10 @@ if s is None:
 
 s.connect(addrPort)
 try:
-    userInput = input("Please put a text file you would like to send.")
-    fc = open(userInput, "r")
+    userInput = input("Please put a text file you would like to send.\n")
+    fc = open(userInput, "rb")
 except FileNotFoundError:
-    print("File was not found")
+    print("  not found")
     sys.exit(1)
 
 words = fc.read()
@@ -54,7 +54,7 @@ if len(words) == 0:
     sys.exit(1)
 
 print("sending " + userInput)
-framedSend(s, (userInput + "<" + words).encode(), debug)
+framedSend(s, (userInput + "<" + str(words)).encode(), debug)
     
     
     

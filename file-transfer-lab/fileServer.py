@@ -24,34 +24,36 @@ lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # listener socket
 bindAddr = ("127.0.0.1", listenPort)
 lsock.bind(bindAddr)
 lsock.listen(5)
-print("listening on:", bindAddr)
+while True:
+    print("listening on:", bindAddr)
 
-sock, addr = lsock.accept()
+    sock, addr = lsock.accept()
+    
+    if not os.fork():
 
-print("connection rec'd from", addr)
+        print("connection rec'd from", addr)
 
-payload = framedReceive(sock, debug)
-print(payload)
-if debug:
-    print("rec'd: ", payload)
+        payload = framedReceive(sock, debug)
+        if debug:
+            print("rec'd: ", payload)
 
-if not payload:
-    sys.exit(1)
-    
-payload = payload.decode()
+        if not payload:
+            sys.exit(1)
+            
+        payload = payload.decode()
 
-name = payload.split("<")[0]
-content = payload.split("<")[1]
-    
-try:
-    if not os.path.isfile(name):
-        file = open(name, 'w')
-        file.write(content)
-        file.close()
-    else:
-        print("File with name", name, "already exists on server. exiting...")
-except FileNotFoundError:
-    print("Fail")
-    
-    
-    
+        name = payload.split("<")[0]
+        content = payload.split("<")[1].encode()
+            
+        try:
+            if not os.path.isfile(name):
+                file = open(name, 'wb+')
+                file.write(content)
+                file.close()
+            else:
+                print("File with name", name, "already exists on server. exiting...")
+        except FileNotFoundError:
+            print("Fail")
+            
+            
+            
