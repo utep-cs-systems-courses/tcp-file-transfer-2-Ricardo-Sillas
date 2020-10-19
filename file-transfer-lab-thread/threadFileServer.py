@@ -37,8 +37,6 @@ class Server(Thread):
         print("new thread handling connection from", self.addr)
         while True:
             print("listening on:", bindAddr)
-
-            self.sock, self.addr = lsock.accept()
     
             print("connection rec'd from", self.addr)
 
