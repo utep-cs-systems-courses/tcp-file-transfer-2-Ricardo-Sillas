@@ -44,7 +44,7 @@ try:
     userInput = input("Please put a text file you would like to send.\n")
     fc = open(userInput, "rb")
 except FileNotFoundError:
-    print("  not found")
+    print("file not found")
     sys.exit(1)
 
 words = fc.read()

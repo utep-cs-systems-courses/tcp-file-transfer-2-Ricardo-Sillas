@@ -36,11 +36,11 @@ class Server(Thread):
         while True:
             print("listening on:", bindAddr)
 
-            sock, addr = lsock.accept()
+            self.sock, self.addr = lsock.accept()
     
-            print("connection rec'd from", addr)
+            print("connection rec'd from", self.addr)
 
-            payload = framedReceive(sock, debug)
+            payload = framedReceive(self.sock, debug)
             if debug:
                 print("rec'd: ", payload)
 
