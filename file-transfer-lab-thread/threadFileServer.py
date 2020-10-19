@@ -25,7 +25,9 @@ bindAddr = ("127.0.0.1", listenPort)
 lsock.bind(bindAddr)
 lsock.listen(5)
 
-from threading import Thread
+from threading import Thread, Lock
+
+lock = Lock()
 
 class Server(Thread):
     def __init__(self, sockAddr):
@@ -40,11 +42,13 @@ class Server(Thread):
     
             print("connection rec'd from", self.addr)
 
+            lock.acquire()
             payload = framedReceive(self.sock, debug)
             if debug:
                 print("rec'd: ", payload)
 
             if not payload:
+                lock.release()
                 sys.exit(1)
             
             payload = payload.decode()
@@ -61,6 +65,7 @@ class Server(Thread):
                     print("File with name", name, "already exists on server. exiting...")
             except FileNotFoundError:
                 print("Fail")
+            lock.release()
 
 
 while True:
