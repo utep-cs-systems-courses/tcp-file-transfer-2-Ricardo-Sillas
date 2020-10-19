@@ -25,6 +25,7 @@ bindAddr = ("127.0.0.1", listenPort)
 lsock.bind(bindAddr)
 lsock.listen(5)
 
+from threading import Thread
 
 class Server(Thread):
     def __init__(self, sockAddr):
